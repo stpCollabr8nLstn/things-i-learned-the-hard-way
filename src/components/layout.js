@@ -38,7 +38,7 @@ const LayoutContent = styled.div`
   height: 100%;
   display: grid;
   grid-template-columns: 1fr 5fr;
-  grid-template-rows: 1fr 6fr 1fr;
+  grid-template-rows: 1fr 10fr;
   margin: 0 auto;
   padding: 0px;
   background: ${COLOR.white};
@@ -48,24 +48,6 @@ const LayoutMain = styled.main`
   grid-row: 2 / span 1;
   grid-column: 2 / span 1;
   padding: 24px;
-`
-
-const LayoutFooter = styled.footer`
-  background: ${COLOR.gray};
-  color: ${COLOR.softWhite};
-  grid-column: 1 / span 2;
-  grid-row: 3 / span 1;
-  a,
-  a:visited {
-    color: ${COLOR.accent};
-  }
-  display: grid;
-  grid-template-columns: 1fr 5fr;
-`
-
-const LayoutFooterContent = styled.div`
-  grid-column: 2 / span 1;
-  margin: auto 0;
 `
 
 const Layout = ({ children }) => {
@@ -85,13 +67,6 @@ const Layout = ({ children }) => {
         <Header siteTitle={data.site.siteMetadata.title} />
         <SideNav />
         <LayoutMain>{children}</LayoutMain>
-        <LayoutFooter>
-          <LayoutFooterContent>
-            © {new Date().getFullYear()}, Built with
-            {` `}
-            <a href="https://www.gatsbyjs.org">Gatsby</a>
-          </LayoutFooterContent>
-        </LayoutFooter>
       </LayoutContent>
     </LayoutContainer>
   )

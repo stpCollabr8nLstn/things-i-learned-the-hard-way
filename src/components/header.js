@@ -15,7 +15,7 @@ const HeaderContainer = styled.header`
 
 const HeaderContent = styled.div`
   grid-column: 2 / span 1;
-  font-size: 40px;
+  font-size: 32px;
   margin: auto 0;
 `
 
