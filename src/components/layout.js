@@ -1,18 +1,13 @@
-/**
- * Layout component that queries for data
- * with Gatsby's useStaticQuery component
- *
- * See: https://www.gatsbyjs.org/docs/use-static-query/
- */
-
-import React from "react"
+import React, { useContext } from "react"
 import PropTypes from "prop-types"
-import { useStaticQuery, graphql } from "gatsby"
+import { Link, useStaticQuery, graphql } from "gatsby"
 import styled from "styled-components"
 
+import { PageDataContext } from "../context/pageDataContext"
 import { COLOR } from "../utils/theme"
 import Header from "./header"
 import SideNav from "./sidenav"
+import SEO from "./seo"
 
 const LayoutContainer = styled.div`
   @import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
@@ -50,7 +45,11 @@ const LayoutMain = styled.main`
   padding: 24px;
 `
 
-const Layout = ({ children }) => {
+const Layout = () => {
+  // Dynamically generate content based on context
+  const [state] = useContext(PageDataContext)
+  const Content = state.displayPage.component
+
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -66,7 +65,11 @@ const Layout = ({ children }) => {
       <LayoutContent>
         <Header siteTitle={data.site.siteMetadata.title} />
         <SideNav />
-        <LayoutMain>{children}</LayoutMain>
+        <LayoutMain>
+          <SEO title={state.displayPage.title} />
+          <Content />
+          <Link to="/page-2/">Go to page 2</Link>
+        </LayoutMain>
       </LayoutContent>
     </LayoutContainer>
   )

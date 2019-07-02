@@ -1,7 +1,34 @@
-import React from "react"
+import React, { useContext } from "react"
 import styled from "styled-components"
 
+import { PageDataContext } from "../context/pageDataContext"
 import { COLOR } from "../utils/theme"
+import Icon from "./icon"
+
+const Up = () => (
+  <Icon>
+    <svg
+      viewBox="0 0 512 512"
+      height="16"
+      width="16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M455,113a15,15 0 01 19,0l29,29a15,15 0 01 0,19l-235,236a16,16 0 01-24,0l-235-236a15,15 0 01 0-19l29-29a15,15 0 01 19,0l199,199z" />
+    </svg>
+  </Icon>
+)
+const Down = () => (
+  <Icon>
+    <svg
+      viewBox="0 0 512 512"
+      height="16"
+      width="16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M256,200l-199,199a15,15 0 01-19,0l-29-29a15,15 0 01 0-19l235-236a16,16 0 01 24,0l235,236a15,15 0 01 0,19l-29,29a15,15 0 01-19,0z" />
+    </svg>
+  </Icon>
+)
 
 const SideNavContainer = styled.div`
   background: ${COLOR.softWhite};
@@ -14,12 +41,19 @@ const SideNavContainer = styled.div`
 
 const SideNavContent = styled.div``
 
-const SideNavHeader = styled.div.attrs(() => ({
-  role: "button",
-}))`
+const SideNavHeader = styled.div`
+  display: flex;
+  align-items: center;
   padding: 16px 24px;
   font-size: 24px;
   color: ${COLOR.black};
+  &:hover {
+    background: ${COLOR.primary};
+    color: ${COLOR.softWhite};
+    > ${Icon} svg {
+      fill: ${COLOR.softWhite};
+    }
+  }
 `
 
 const SideNavUl = styled.ul.attrs(() => ({
@@ -71,24 +105,58 @@ const SideNavFooterContent = styled.div`
   margin: auto 0;
 `
 
-const SideNav = () => (
-  <SideNavContainer>
-    <SideNavHeader>About</SideNavHeader>
-    <SideNavHeader>Things</SideNavHeader>
-    <SideNavContent>
-      <SideNavUl>
-        <li>SideNav</li>
-        <li>Other thing</li>
-      </SideNavUl>
-    </SideNavContent>
-    <SideNavFooter>
-      <SideNavFooterContent>
-        © {new Date().getFullYear()}
-        {` `}
-        <a href="https://twitter.com/StpColabr8nLstn">Adriana Rios</a>
-      </SideNavFooterContent>
-    </SideNavFooter>
-  </SideNavContainer>
-)
+const SideNav = () => {
+  const [state, setState] = useContext(PageDataContext)
+  const updatePage = newPage =>
+    setState(state => ({ ...state, displayPage: newPage }))
+
+  const toggleThings = () =>
+    setState(state => ({ ...state, thingsIsOpen: !state.thingsIsOpen }))
+
+  return (
+    <SideNavContainer>
+      <SideNavHeader
+        role="button"
+        onClick={() => {
+          updatePage(state.pages.find(p => p.title === "Home"))
+        }}
+      >
+        Home
+      </SideNavHeader>
+      <SideNavHeader
+        role="button"
+        onClick={() => {
+          toggleThings()
+        }}
+      >
+        Things
+        {state.thingsIsOpen ? <Down /> : <Up />}
+      </SideNavHeader>
+      <SideNavContent>
+        {state.thingsIsOpen && (
+          <SideNavUl>
+            {state.pages.map(p => (
+              <li
+                role="button"
+                onClick={() => {
+                  updatePage(p)
+                }}
+              >
+                {p.title}
+              </li>
+            ))}
+          </SideNavUl>
+        )}
+      </SideNavContent>
+      <SideNavFooter>
+        <SideNavFooterContent>
+          © {new Date().getFullYear()}
+          {` `}
+          <a href="https://twitter.com/StpColabr8nLstn">Adriana Rios</a>
+        </SideNavFooterContent>
+      </SideNavFooter>
+    </SideNavContainer>
+  )
+}
 
 export default SideNav
