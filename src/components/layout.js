@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import PropTypes from "prop-types"
-import { Link, useStaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql } from "gatsby"
 import styled from "styled-components"
 
 import { PageDataContext } from "../context/pageDataContext"
@@ -10,12 +10,13 @@ import SideNav from "./sidenav"
 import SEO from "./seo"
 
 const LayoutContainer = styled.div`
-  @import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
+  @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800&display=swap");
   font-family: "Poppins", sans-serif;
   font-size: 16px;
   color: ${COLOR.black};
   background: ${COLOR.softWhite};
   width: 100vw;
+  max-width: 100%;
   height: 100vh;
   padding: 0;
   margin: 0;
@@ -26,6 +27,34 @@ const LayoutContainer = styled.div`
 
   img {
     border-radius: 2px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  a {
+    padding: 0;
+    margin: 0;
+    font-weight: 400;
+  }
+
+  p {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    margin: 8px 0;
+  }
+  h1 {
+    font-size: 40px;
+    font-weight: 600;
+    padding: 0 24px;
+  }
+  h2 {
+    font-size: 32px;
   }
 `
 
@@ -42,7 +71,10 @@ const LayoutContent = styled.div`
 const LayoutMain = styled.main`
   grid-row: 2 / span 1;
   grid-column: 2 / span 1;
-  padding: 24px;
+  padding: 16px 24px;
+  max-width: 768px;
+  position: relative;
+  top: 76px;
 `
 
 const Layout = () => {
@@ -68,7 +100,6 @@ const Layout = () => {
         <LayoutMain>
           <SEO title={state.displayPage.title} />
           <Content />
-          <Link to="/page-2/">Go to page 2</Link>
         </LayoutMain>
       </LayoutContent>
     </LayoutContainer>

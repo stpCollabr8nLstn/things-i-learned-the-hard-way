@@ -36,7 +36,10 @@ const SideNavContainer = styled.div`
   color: ${COLOR.gray};
   grid-row: 2 / span 1;
   grid-column: 1 / span 1;
-  position: relative;
+  position: fixed;
+  top: 76px;
+  left: 0;
+  height: calc(100% - 76px);
 `
 
 const SideNavContent = styled.div``
@@ -56,23 +59,16 @@ const SideNavHeader = styled.div`
   }
 `
 
-const SideNavUl = styled.ul.attrs(() => ({
-  role: "nav",
-}))`
-  list-style: none;
-  padding: 0;
-  margin: 0;
+const SideNavLi = styled.li`
+  padding: 8px 24px;
+  position: relative;
+  transition: all 0.15s ease-out;
 
-  li {
-    padding: 8px 24px;
-    position: relative;
-    transition: all 0.15s ease-out;
-  }
+  background: ${props => (props.selected ? COLOR.accent : COLOR.softWhite)};
+  color: ${props => (props.selected ? COLOR.primary : COLOR.gray)};
+  cursor: pointer;
 
-  li:hover {
-    background: ${COLOR.accent};
-    color: ${COLOR.primary};
-    cursor: pointer;
+  &:hover {
     &:after {
       content: "";
       height: 4px;
@@ -83,6 +79,12 @@ const SideNavUl = styled.ul.attrs(() => ({
       background: ${COLOR.primary};
     }
   }
+`
+
+const SideNavUl = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
 `
 
 const SideNavFooter = styled.footer`
@@ -134,16 +136,17 @@ const SideNav = () => {
       </SideNavHeader>
       <SideNavContent>
         {state.thingsIsOpen && (
-          <SideNavUl>
+          <SideNavUl role="menu">
             {state.pages.map(p => (
-              <li
+              <SideNavLi
+                selected={p.title === state.displayPage.title}
                 role="button"
                 onClick={() => {
                   updatePage(p)
                 }}
               >
                 {p.title}
-              </li>
+              </SideNavLi>
             ))}
           </SideNavUl>
         )}

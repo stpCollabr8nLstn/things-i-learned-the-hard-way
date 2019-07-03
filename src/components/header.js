@@ -11,12 +11,16 @@ const HeaderContainer = styled.header`
   grid-column: 1 / span 2;
   display: grid;
   grid-template-columns: 1fr 5fr;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
 `
 
 const HeaderContent = styled.div`
   grid-column: 2 / span 1;
   font-size: 32px;
   margin: auto 0;
+  padding: 8px 0;
 `
 
 const Header = ({ siteTitle }) => (
@@ -29,7 +33,7 @@ const Header = ({ siteTitle }) => (
           textDecoration: `none`,
         }}
       >
-        {siteTitle}
+        <h1>{siteTitle}</h1>
       </Link>
     </HeaderContent>
   </HeaderContainer>
